@@ -1,6 +1,7 @@
 from enum import Enum, auto
 from typing import Optional
 from .device import DeviceDB, ChipInfo
+from .design_file import FileType, Path, DesignFile
 
 
 class RunType(Enum):
@@ -22,9 +23,31 @@ class HCTaskEngine:
     def __init__(self):
         self.device_db = DeviceDB()
         self.chip_info: Optional[ChipInfo] = None
+        self.design_files = []
 
-    def add_file(self, *files, ftype=None) -> "HCTaskEngine":
+    def set_fcvlg_by_bin_file(self, path: str):
         pass
+
+    def add_file(self, *files, file_type: FileType = None, is_disabled: bool = False) -> "HCTaskEngine":
+        """
+        add design files
+
+        :param files: file paths
+        :param file_type: file type
+        :param is_disabled: is disabled
+        :return:
+        """
+        if len(files) == 0:
+            raise ValueError("empty files")
+        if file_type is None:
+            file_type = FileType.Auto
+        for p in files:
+            p = Path(p)
+            design_file = DesignFile(p.absolute(), file_type, is_disabled).set_type()
+            if design_file.file_type == FileType.Binary:
+                self.set_fcvlg_by_bin_file(design_file.path)
+            self.design_files.append(design_file)
+        return self
 
     def rm_file(self, *files) -> "HCTaskEngine":
         pass
