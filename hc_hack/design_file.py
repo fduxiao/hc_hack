@@ -20,8 +20,17 @@ class FileType(Enum):
 
 suffix_map = {
     ".v": FileType.Verilog,
+    ".vm": FileType.NetList,
+    ".vo": FileType.NetList,
+    ".vg": FileType.NetList,
     ".cst": FileType.CST,
-    ".gao": FileType.GC
+    ".sdc": FileType.SDC,
+    ".fdc": FileType.FDC,
+    ".gao": FileType.GC,
+    ".rao": FileType.GC,
+    ".gpa": FileType.GPA,
+    ".gsc": FileType.GSC,
+    ".bin": FileType.Binary,
 }
 
 
